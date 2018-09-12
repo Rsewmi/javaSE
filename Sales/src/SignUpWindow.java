@@ -38,17 +38,18 @@ public class SignUpWindow {
         frame.setBounds(100, 100, 730, 489);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+        frame.setLocationRelativeTo(null);
 
         JLabel userNameLabel = new JLabel("User Name");
-        userNameLabel.setBounds(65, 31, 66, 14);
+        userNameLabel.setBounds(65, 31, 80, 14);
         frame.getContentPane().add(userNameLabel);
 
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(65, 71, 66, 14);
+        passwordLabel.setBounds(65, 71, 80, 14);
         frame.getContentPane().add(passwordLabel);
 
         JLabel userTypeLabel = new JLabel("User Type");
-        userTypeLabel.setBounds(65, 111, 66, 14);
+        userTypeLabel.setBounds(65, 111, 80, 14);
         frame.getContentPane().add(userTypeLabel);
 
         userNameTextField = new JTextField();
@@ -61,7 +62,7 @@ public class SignUpWindow {
         frame.getContentPane().add(passwordfield);
         passwordfield.setColumns(10);
 
-        JComboBox<String> comboBox = new JComboBox<String>();
+        final JComboBox<String> comboBox = new JComboBox<String>();
         comboBox.addItem("Select");
         comboBox.addItem("Customer");
         comboBox.addItem("Seller");
