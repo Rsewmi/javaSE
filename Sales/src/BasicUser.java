@@ -88,7 +88,6 @@ public class BasicUser {
         }
     }
 
-}
 
     public static void login(String userName, String password) {
 
