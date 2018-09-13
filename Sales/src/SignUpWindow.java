@@ -92,10 +92,10 @@ public class SignUpWindow {
                 if(userNameTextField.getText().isEmpty()||(passwordfield.getText().isEmpty())||(comboBox.getSelectedItem().equals("Select")))
                     JOptionPane.showMessageDialog(null, "Data Missing");
                 else {
-                    if(BasicUser.checkUserNameDuplication(userName)) {
+                    if(BasicUser.checkUserNameDuplication(userName) != null) {
                         JOptionPane.showMessageDialog(null, "User name already exists.");
                     }
-                    else if (!BasicUser.checkUserNameDuplication(userName)) {
+                    else if (BasicUser.checkUserNameDuplication(userName) == null) {
                         JOptionPane.showMessageDialog(null, "Data Submitted");
                         if (userType.equals("Seller")) {
                             BasicUser newUser = new BasicUser(userName, password, 's');

@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,10 +47,10 @@ public class BasicUser {
         dbConnection.closeDatabaseConnection(conn);
     }
 
-    public static boolean checkUserNameDuplication(String userName) {
+    public static String checkUserNameDuplication(String userName) {
 
-        boolean duplicated = false;
-
+//        boolean duplicated = false;
+        String password = null;
         //Create database connection
         Connection conn = dbConnection.createDatabaseConnection();
 
@@ -62,7 +63,24 @@ public class BasicUser {
                 String dbName = rs.getString("name");
 
                 if (userName.equals(dbName)) {
-                    duplicated = true;
+//                    duplicated = true;
+                     try {
+                        String sql1 = "SELECT * FROM user WHERE name = ?";
+                        PreparedStatement pstmt = conn.prepareStatement(sql);
+                        try {
+                            pstmt.setString(1, userName);
+                            ResultSet rs1 = pstmt.executeQuery();
+                            System.out.println("rsl="+ rs1);
+                            password = rs1.getString("password");
+                            System.out.println("password="+ password);
+
+                        } finally {
+                            pstmt.close();
+                        }
+                    }
+                    catch (java.sql.SQLException ee) {
+                        System.out.println("SQLException in BasicUser class, in BasicUser constructor method");
+                    }
                     break;
                 }
             }
@@ -72,11 +90,58 @@ public class BasicUser {
         }
         //Close database connection
         dbConnection.closeDatabaseConnection(conn);
-        return  duplicated;
+//        return  duplicated;
+        return password;
     }
 
-    public static void login(String userName, String password) {
+    public static boolean login(String userName, String password) {
 
+        boolean allowLogin = false;
+
+        if (checkUserNameDuplication(userName) == null){
+            JOptionPane.showMessageDialog(null, "User does not exist");
+        }
+        else {
+            String dbPassword = checkUserNameDuplication(userName);
+            if (password.equals(dbPassword)){
+                allowLogin = true;
+                JOptionPane.showMessageDialog(null, "User logged in");
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Incorrect password");
+            }
+        }
+        return allowLogin;
+    }
+
+    public static void loadWindow(String userName) {
+
+        //Create database connection
+        Connection conn = dbConnection.createDatabaseConnection();
+
+        try {
+            //Statement stmt = conn.createStatement();
+            String sql = "SELECT * FROM user WHERE userName = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery(sql);
+            String userType = rs.getString("userType");
+
+            if (userType.equals('c')) {
+            // load customer window
+            }
+            else if (userType.equals('s')) {
+            // load seller window
+            }
+            else {
+                System.out.println("Invalid user Type received.");
+            }
+        }
+        catch (java.sql.SQLException e) {
+            System.out.println("SQLException in BasicUser class, in laodWindow(username) method");
+            System.out.println(e);
+        }
+        //Close database connection
+        dbConnection.closeDatabaseConnection(conn);
 
     }
 
