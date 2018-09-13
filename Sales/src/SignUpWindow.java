@@ -90,55 +90,22 @@ public class SignUpWindow {
 
                 if(userNameTextField.getText().isEmpty()||(passwordfield.getText().isEmpty())||(comboBox.getSelectedItem().equals("Select")))
                     JOptionPane.showMessageDialog(null, "Data Missing");
-                else if (userType.equals("Seller")) {
-                    JOptionPane.showMessageDialog(null, "Data Submitted");
-                    BasicUser newUser = new BasicUser(userName, password, true);
-                }
-                else if (userType.equals("Customer")) {
-                    JOptionPane.showMessageDialog(null, "Data Submitted");
-                    BasicUser newUser = new BasicUser(userName, password, false);
+                else {
+                    if(BasicUser.checkUserNameDuplication(userName)) {
+                        JOptionPane.showMessageDialog(null, "User name already exists.");
+                    }
+                    else if (!BasicUser.checkUserNameDuplication(userName)) {
+                        JOptionPane.showMessageDialog(null, "Data Submitted");
+                        if (userType.equals("Seller")) {
+                            BasicUser newUser = new BasicUser(userName, password, 's');
+                        }
+                        else {
+                            BasicUser newUser = new BasicUser(userName, password, 'c');
+                        }
+                    }
                 }
             }
         });
-
-//        JLabel fullNameLabel = new JLabel("Full Name");
-//        fullNameLabel.setBounds(65, 51, 66, 34);
-//        frame.getContentPane().add(fullNameLabel);
-
-//        JLabel ageLabel = new JLabel("Age");
-//        ageLabel.setBounds(65, 91, 66, 74);
-//        frame.getContentPane().add(ageLabel);
-
-//        JLabel lblMale = new JLabel("Male");
-//        lblMale.setBounds(128, 228, 46, 14);
-//        frame.getContentPane().add(lblMale);
-//
-//        JLabel lblFemale = new JLabel("Female");
-//        lblFemale.setBounds(292, 228, 46, 14);
-//        frame.getContentPane().add(lblFemale);
-
-//        fullNameTextField = new JTextField();
-//        fullNameTextField.setBounds(185, 56, 146, 21);
-//        frame.getContentPane().add(fullNameTextField);
-//        fullNameTextField.setColumns(10);
-
-//        ageTextField = new JTextField();
-//        ageTextField.setBounds(185, 116, 146, 21);
-//        frame.getContentPane().add(ageTextField);
-//        ageTextField.setColumns(10);
-
-        //Gender radio button
-//        JLabel genderLabel = new JLabel("Gender");
-//        genderLabel.setBounds(65, 111, 66, 94);
-//        frame.getContentPane().add(genderLabel);
-//
-//        JRadioButton maleRadioButton = new JRadioButton("");
-//        maleRadioButton.setBounds(65, 111, 109, 23);
-//        frame.getContentPane().add(maleRadioButton);
-//
-//        JRadioButton femaleRadioButton = new JRadioButton("");
-//        femaleRadioButton.setBounds(65, 111, 109, 23);
-//        frame.getContentPane().add(femaleRadioButton);
 
     }
 }
