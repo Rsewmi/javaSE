@@ -7,14 +7,15 @@ public class SignUpWindow {
 
     private JFrame frame;
     private JTextField userNameTextField, fullNameTextField, passwordfield, ageTextField;
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
+
+    public static void openSignUpWindow() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
                     SignUpWindow window = new SignUpWindow();
+                    window.frame.setVisible(true);
+                    window.frame.setSize(600, 300);
+                    window.frame.setTitle("Sign Up Window");
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -23,17 +24,11 @@ public class SignUpWindow {
         });
     }
 
-    /**
-     * Create the application.
-     */
     public SignUpWindow() {
         initialize();
     }
 
-    /**
-     * Initialize the contents of the frame.
-     */
-    private void initialize() {
+    public void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 730, 489);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,14 +68,13 @@ public class SignUpWindow {
         comboBox.setBounds(185, 110, 146, 21);
         frame.getContentPane().add(comboBox);
 
-
+        //submit button
         JButton btnSubmit = new JButton("submit");
 
         btnSubmit.setBackground(Color.BLUE);
         btnSubmit.setForeground(Color.MAGENTA);
         btnSubmit.setBounds(185, 140, 146, 21);
         frame.getContentPane().add(btnSubmit);
-
 
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {

@@ -17,6 +17,7 @@ public class dbConnection {
 
         try {
             //Register JDBC driver
+//            Class.forName("com.mysql.jdbc.Driver");
             Class.forName("com.mysql.jdbc.Driver");
 
             //Create a connection
@@ -27,7 +28,7 @@ public class dbConnection {
             System.out.println("Creating statement...");
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(e);
         } catch (SQLException e) {
             e.printStackTrace();
         }

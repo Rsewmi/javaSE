@@ -1,8 +1,5 @@
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class BasicUser {
 
@@ -40,8 +37,8 @@ public class BasicUser {
                 pstmt.close();
             }
         }
-        catch (java.sql.SQLException ee) {
-            System.out.println("SQLException in BasicUser class, in BasicUser constructor method");
+        catch (java.sql.SQLException e1) {
+            System.out.println("e1: "+e1);
         }
         //Close database connection
         dbConnection.closeDatabaseConnection(conn);
@@ -49,48 +46,24 @@ public class BasicUser {
 
     public static String checkUserNameDuplication(String userName) {
 
-//        boolean duplicated = false;
         String password = null;
         //Create database connection
         Connection conn = dbConnection.createDatabaseConnection();
 
         try {
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT name FROM user";
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement stmt = conn.prepareStatement("SELECT password FROM user WHERE name = ?");
+            stmt.setString(1, userName);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();          //moving the cursor to the next position
+            password = rs.getString(1);
+            return password;
 
-            while(rs.next()) {
-                String dbName = rs.getString("name");
-
-                if (userName.equals(dbName)) {
-//                    duplicated = true;
-                     try {
-                        String sql1 = "SELECT * FROM user WHERE name = ?";
-                        PreparedStatement pstmt = conn.prepareStatement(sql);
-                        try {
-                            pstmt.setString(1, userName);
-                            ResultSet rs1 = pstmt.executeQuery();
-                            System.out.println("rsl="+ rs1);
-                            password = rs1.getString("password");
-                            System.out.println("password="+ password);
-
-                        } finally {
-                            pstmt.close();
-                        }
-                    }
-                    catch (java.sql.SQLException ee) {
-                        System.out.println("SQLException in BasicUser class, in BasicUser constructor method");
-                    }
-                    break;
-                }
-            }
         }
-        catch (java.sql.SQLException e) {
-            System.out.println("SQLException in BasicUser class, in checkUserNameDuplication method");
+        catch (java.sql.SQLException e2) {
+            System.out.println("e2: "+e2);
         }
         //Close database connection
         dbConnection.closeDatabaseConnection(conn);
-//        return  duplicated;
         return password;
     }
 
@@ -120,25 +93,27 @@ public class BasicUser {
         Connection conn = dbConnection.createDatabaseConnection();
 
         try {
-            //Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM user WHERE userName = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery(sql);
-            String userType = rs.getString("userType");
+            PreparedStatement stmt = conn.prepareStatement("SELECT userType FROM user WHERE name = ?");
+            stmt.setString(1, userName);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();          //moving the cursor to the next position
+            String userType = rs.getString(1);
+            System.out.println(userType);
 
-            if (userType.equals('c')) {
+            if (userType.equals("c")) {
             // load customer window
+                System.out.println("c");
             }
-            else if (userType.equals('s')) {
+            else if (userType.equals("s")) {
             // load seller window
+                System.out.println("s");
             }
             else {
                 System.out.println("Invalid user Type received.");
             }
         }
-        catch (java.sql.SQLException e) {
-            System.out.println("SQLException in BasicUser class, in laodWindow(username) method");
-            System.out.println(e);
+        catch (java.sql.SQLException e3) {
+            System.out.println("e3: "+ e3);
         }
         //Close database connection
         dbConnection.closeDatabaseConnection(conn);

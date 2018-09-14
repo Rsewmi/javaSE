@@ -1,20 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
+//import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginWindow {
     private JFrame loginFrame;
     private JTextField userNameTextField, fullNameTextField, passwordfield, ageTextField;
-    /**
-     * Launch the application.
-     */
+
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
                     LoginWindow window = new LoginWindow();
                     window.loginFrame.setVisible(true);
+                    window.loginFrame.setSize (600,300);
+                    window.loginFrame.setTitle("Login Window");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -22,16 +23,10 @@ public class LoginWindow {
         });
     }
 
-    /**
-     * Create the application.
-     */
     public LoginWindow() {
         initialize();
     }
 
-    /**
-     * Initialize the contents of the frame.
-     */
     private void initialize() {
         loginFrame = new JFrame();
         loginFrame.setBounds(100, 100, 730, 489);
@@ -57,13 +52,13 @@ public class LoginWindow {
         loginFrame.getContentPane().add(passwordfield);
         passwordfield.setColumns(10);
 
+        //submit button
         JButton btnSubmit = new JButton("submit");
 
         btnSubmit.setBackground(Color.BLUE);
         btnSubmit.setForeground(Color.MAGENTA);
         btnSubmit.setBounds(185, 140, 146, 21);
         loginFrame.getContentPane().add(btnSubmit);
-
 
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -82,6 +77,26 @@ public class LoginWindow {
                         JOptionPane.showMessageDialog(null, "Please try again later");
                     }
                 }
+            }
+        });
+
+        //signup button
+        JButton btnSignup = new JButton("Sign Up");
+
+        btnSignup.setBackground(Color.BLUE);
+        btnSignup.setForeground(Color.MAGENTA);
+        btnSignup.setBounds(385, 140, 146, 21);
+        loginFrame.getContentPane().add(btnSignup);
+
+        btnSignup.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+
+                try {
+                    SignUpWindow.openSignUpWindow();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
